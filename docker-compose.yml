@@ -1,0 +1,14 @@
+services:
+  server:
+    container_name: library_server
+    build: 
+      context: .
+    ports:
+      - 127.0.0.1:80:80
+    networks:
+      - default
+    
+
+networks:
+  default:
+    driver: bridge
