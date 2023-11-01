@@ -7,8 +7,14 @@ services:
       - 127.0.0.1:80:80
     networks:
       - default
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Connection__MongoConnection=mongodb+srv://root:root@library.ndny8eh.mongodb.net/
     
 
 networks:
   default:
     driver: bridge
+
+volumes:
+  mongo_data:

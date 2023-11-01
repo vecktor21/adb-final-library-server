@@ -1,0 +1,31 @@
+services:
+  server:
+    container_name: library_server
+    build: 
+      context: .
+    ports:
+      - 127.0.0.1:80:80
+    networks:
+      - default
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Connection__MongoConnection=mongodb://root:root@mongo/
+  
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017:27017
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  mongo_data:
