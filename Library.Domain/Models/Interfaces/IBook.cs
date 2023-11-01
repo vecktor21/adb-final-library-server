@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Library.Domain.Models.Interfaces
 {
-    public interface IBook : IModel
+    public interface IBook
     {
+        Guid Id { get; set; }
         string Title { get; set; }
         string PiblishCity { get; set; }
         string Publisher { get; set; }
@@ -17,8 +18,11 @@ namespace Library.Domain.Models.Interfaces
         int Year { get; set; }
         double Discount { get; set; }
         string Genre { get; set; }
+        string Description { get; set; }
         Guid AuthorId { get; set; }
-        IUser Author { get; }
-        List<int> Likes { get; set; }
+        IUser Author { get; set; }
+        List<Guid> Likes { get; set; }
+        DateTime CreateDate { get; set; }
+        DateTime UpdateDate { get; set; }
     }
 }

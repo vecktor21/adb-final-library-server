@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.Dal.Models
 {
-    public class UserEntity : IUser
+    internal class UserEntity : IUser
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

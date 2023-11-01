@@ -21,9 +21,10 @@ namespace Library.Dal
         public Database(IOptions<ConnectionOptions> options, ILogger logger)
         {
             logger.Debug($"Setting connection with: Database: {options.Value.Database};");
+            logger.Debug($"Connection string: {options.Value.MongoConnection}");
             this.databaseName = options.Value.Database;
             this.options = options.Value;
-            db = new MongoClient(options.Value.ConnectionsString);
+            db = new MongoClient(options.Value.MongoConnection);
             this.logger = logger;
             logger.Debug(messageTemplate: $"Successfully established connection");
         }

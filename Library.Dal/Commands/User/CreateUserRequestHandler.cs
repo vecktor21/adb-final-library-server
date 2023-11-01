@@ -1,7 +1,9 @@
-﻿using Library.Common.Exceptions;
+﻿using AutoMapper;
+using Library.Common.Exceptions;
 using Library.Dal.Models;
 using Library.Dal.Options;
 using Library.Domain.Commands.User;
+using Library.Domain.Dtos.User;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Models.Implementataions;
 using Library.Domain.Models.Interfaces;
@@ -17,20 +19,23 @@ using System.Threading.Tasks;
 
 namespace Library.Dal.Commands.User
 {
-    internal class CreateUserRequestHandler : IRequestHandler<CreateUserCommand, IUser?>
+    internal class CreateUserRequestHandler : IRequestHandler<CreateUserCommand, UserViewModel?>
     {
         private readonly Database db;
         private readonly ILogger logger;
+        private readonly IMapper mapper;
         private readonly ConnectionOptions options;
 
-        public CreateUserRequestHandler(Database db, IUnitOfWork unitOfWork, IOptions<ConnectionOptions> options, ILogger logger)
+        public CreateUserRequestHandler(Database db, IUnitOfWork unitOfWork, IOptions<ConnectionOptions> options, ILogger logger, IMapper mapper)
         {
             this.db = db;
             this.logger = logger;
+            this.mapper = mapper;
             this.options = options.Value;
         }
-        public async Task<IUser?> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserViewModel?> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            logger.Information("Creating new user");
             var collection = db.GetCollection<UserEntity>(options.UserCollectionName);
 
             var filters = new List<FilterDefinition<UserEntity>>
@@ -69,7 +74,7 @@ namespace Library.Dal.Commands.User
             var createdUser = (await collection.Find(filters[0]).Limit(1).ToListAsync()).FirstOrDefault(); ;
             var msg = $"Created new User {createdUser.Id}";
             logger.Information(msg);
-            return createdUser;
+            return mapper.Map<UserViewModel>( createdUser);
         }
     }
 }

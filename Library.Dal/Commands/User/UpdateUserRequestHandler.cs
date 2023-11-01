@@ -30,6 +30,7 @@ namespace Library.Dal.Commands.User
         }
         public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
+            logger.Information("Updateing user");
             try
             {
                 var updateDefinition = Builders<UserEntity>.Update

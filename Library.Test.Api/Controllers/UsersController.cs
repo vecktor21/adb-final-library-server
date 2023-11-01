@@ -3,6 +3,8 @@ using Library.Domain.Dtos.User;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Models.Implementataions;
 using Library.Domain.Models.Interfaces;
+using Library.Domain.Queries;
+using Library.Domain.Queries.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -10,27 +12,31 @@ using Serilog;
 namespace Library.Test.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
 
         private readonly ILogger<UsersController> _logger;
         private readonly IUnitOfWork unitOfWork;
-        private readonly IUserRepository userRepository;
         private readonly IMediator mediator;
 
         public UsersController(ILogger<UsersController> logger, IUnitOfWork unitOfWork, IUserRepository userRepository, IMediator mediator)
         {
             _logger = logger;
             this.unitOfWork = unitOfWork;
-            this.userRepository = userRepository;
             this.mediator = mediator;
         }
 
         [HttpGet("{userId}")]
-        public async Task<IUser?> GetUser(Guid userId)
+        public async Task<UserViewModel?> GetUser(Guid userId)
         {
-            return await userRepository.FindUser(userId);
+            return await mediator.Send(new GetUserQuery { Id = userId });
+        }
+
+        [HttpGet]
+        public async Task<List<UserViewModel>> GetUsers()
+        {
+            return await mediator.Send(new GetUsersQuery());
         }
 
         [HttpPatch]
@@ -43,7 +49,7 @@ namespace Library.Test.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IUser> Create([FromForm] CreateUserDto user)
+        public async Task<UserViewModel> Create([FromForm] CreateUserDto user)
         {
             UserModel newUser = new UserModel()
             {

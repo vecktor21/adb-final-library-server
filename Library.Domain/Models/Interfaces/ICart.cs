@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Library.Domain.Models.Interfaces
 {
-    public interface ICart : IModel
+    public interface ICart
     {
+        Guid Id { get; set; }
         Guid UserId { get; set; }
         IUser User { get; }
         List<IBook> Books { get; set; }

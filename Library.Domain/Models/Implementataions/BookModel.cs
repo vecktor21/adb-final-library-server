@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Library.Domain.Models.Implementataions
 {
-    public class BookProxy : IBook
+    public class BookModel : IBook
     {
         private Guid _id;
 
@@ -22,13 +22,11 @@ namespace Library.Domain.Models.Implementataions
         private double _discount = 0;
         private string _genre = "";
         private Guid _authorId;
-        private IUser _author;
-        
-        private readonly IUnitOfWork _db;
-        public BookProxy(IUnitOfWork db)
+        private string _description = "";
+        private DateTime _createDate = DateTime.MinValue;
+        private DateTime _updateDate = DateTime.MinValue;
+        public BookModel()
         {
-            this._db = db;
-            _author = _db.UserRepository.FindUser(_authorId).Result;
         }
         public Guid Id
         {
@@ -51,19 +49,39 @@ namespace Library.Domain.Models.Implementataions
         public int Year { get { return _year; } set { _year = value; } }
         public double Discount { get { return _discount; } set { _discount = value; } }
         public string Genre { get { return _genre; } set { _genre = value; } }
+        public string Description { get { return _description; } set { _description = value; } }
         public Guid AuthorId { get { return _authorId; } set { _authorId = value; } }
-        public IUser Author 
-        { 
-            get 
+        public IUser Author { get; set; }
+        public List<Guid> Likes { get; set; }
+        public DateTime CreateDate 
+        {
+            get
             {
-                if(_author == null)
+                if(_createDate == DateTime.MinValue)
                 {
-                    _author = _db.UserRepository.FindUser(_authorId).Result;
+                    _createDate = DateTime.Now;
                 }
-                return _author;
-                
+                return _createDate;
+            }
+            set
+            {
+                _createDate = value;
             }
         }
-        public List<int> Likes { get; set; }
+        public DateTime UpdateDate
+        {
+            get
+            {
+                if (_updateDate == DateTime.MinValue)
+                {
+                    _updateDate = DateTime.Now;
+                }
+                return _updateDate;
+            }
+            set
+            {
+                _updateDate = value;
+            }
+        }
     }
 }
