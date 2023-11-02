@@ -20,6 +20,7 @@ builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis
 
 builder.Services.AddStackExchangeRedisCache(conf =>
 {
+
     var conString = builder.Configuration.GetSection("Connection:RedisConnection").Value;
     Console.WriteLine(conString);
     conf.Configuration = conString;

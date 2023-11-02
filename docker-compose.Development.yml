@@ -15,7 +15,7 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    restart: no
+    #restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -31,9 +31,10 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
-    #command: redis-server --requirepass root
     networks:
       - default
+    environment:
+      - REDIS_PORT=6379
 
 networks:
   default:

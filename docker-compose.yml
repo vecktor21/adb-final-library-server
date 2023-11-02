@@ -10,18 +10,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Connection__MongoConnection=mongodb+srv://root:root@library.ndny8eh.mongodb.net/
-      - Connection__RedisConnection=redis,6379;Password=root
-# docker run --name redis_library -v redis_data:/data -c --port 6380 redis
-# docker run -d --name redis-stack-server -p 127.0.0.1:6379:6379 redis/redis-stack-server:latest
+      - Connection__RedisConnection=redis:6379
 
   redis:
     container_name: redis
     image: redis:latest
     ports:
       - 6379:6379
-    command: redis-server --requirepass root
     networks:
       - default
+    environment:
+      - REDIS_PORT=6379
 
 
 
