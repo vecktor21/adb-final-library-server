@@ -10,11 +10,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Connection__MongoConnection=mongodb://root:root@mongo/
+      - Connection__RedisConnection=redis:6379
   
   mongo:
     container_name: mongo
     image: mongo
-    restart: always
+    restart: no
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -22,6 +23,17 @@ services:
       - mongo_data:/data/db
     ports:
       - 27017:27017
+    networks:
+      - default
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    #command: redis-server --requirepass root
+    networks:
+      - default
 
 networks:
   default:
@@ -29,3 +41,4 @@ networks:
 
 volumes:
   mongo_data:
+  redis_data:

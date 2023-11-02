@@ -17,13 +17,11 @@ namespace Library.Test.Api.Controllers
     {
 
         private readonly ILogger<UsersController> _logger;
-        private readonly IUnitOfWork unitOfWork;
         private readonly IMediator mediator;
 
-        public UsersController(ILogger<UsersController> logger, IUnitOfWork unitOfWork, IUserRepository userRepository, IMediator mediator)
+        public UsersController(ILogger<UsersController> logger, IMediator mediator)
         {
             _logger = logger;
-            this.unitOfWork = unitOfWork;
             this.mediator = mediator;
         }
 

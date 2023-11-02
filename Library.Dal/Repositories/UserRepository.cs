@@ -1,4 +1,4 @@
-﻿using Library.Dal.Options;
+﻿using Library.Common.Options;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Models.Interfaces;
 using Microsoft.Extensions.Options;
@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Library.Dal.Options;
 using Library.Dal.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;

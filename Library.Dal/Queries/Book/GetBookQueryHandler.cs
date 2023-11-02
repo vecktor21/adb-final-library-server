@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Library.Dal.Models;
-using Library.Dal.Options;
+using Library.Common.Options;
 using Library.Domain.Dtos.Book;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Models.Interfaces;
