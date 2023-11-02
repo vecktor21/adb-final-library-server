@@ -10,7 +10,19 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Connection__MongoConnection=mongodb+srv://root:root@library.ndny8eh.mongodb.net/
-    
+      - Connection__RedisConnection=redis:6379
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - default
+    environment:
+      - REDIS_PORT=6379
+
+
 
 networks:
   default:
@@ -18,3 +30,4 @@ networks:
 
 volumes:
   mongo_data:
+  redis_data:

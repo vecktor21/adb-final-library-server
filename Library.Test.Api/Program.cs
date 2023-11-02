@@ -1,6 +1,7 @@
 using Library.Common.Exceptions;
-using Library.Dal.Options;
+using Library.Common.Options;
 using Library.Di;
+using Library.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using System.Reflection;
@@ -13,11 +14,19 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddMediatR(cfg =>
+
+builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection("Connection"));
+builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
+
+builder.Services.AddStackExchangeRedisCache(conf =>
 {
-    cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies() );
+
+    var conString = builder.Configuration.GetSection("Connection:RedisConnection").Value;
+    Console.WriteLine(conString);
+    conf.Configuration = conString;
 });
+
+
 
 var serilogConfig = builder.Configuration.GetSection("Serilog");
 
@@ -28,7 +37,6 @@ builder.Host.UseSerilog((context, config) =>
 
 
 
-builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection("Connection"));
 
 
 Di.AddServices(builder.Services);

@@ -12,6 +12,7 @@ COPY Library.Bll/Library.Bll.csproj Library.Bll/
 COPY Library.Common/Library.Common.csproj Library.Common/
 COPY Library.Dal/Library.Dal.csproj Library.Dal/
 COPY Library.Domain/Library.Domain.csproj Library.Domain/
+COPY Library.Cache/Library.Cache.csproj Library.Cache/
 RUN dotnet restore "Library.Test.Api/Library.Api.csproj"
 COPY . .
 WORKDIR "/src/Library.Test.Api"

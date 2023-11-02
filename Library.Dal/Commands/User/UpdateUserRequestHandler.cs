@@ -1,6 +1,6 @@
 ﻿using Library.Common.Exceptions;
 using Library.Dal.Models;
-using Library.Dal.Options;
+using Library.Common.Options;
 using Library.Domain.Commands.User;
 using Library.Domain.Models.Interfaces;
 using MediatR;

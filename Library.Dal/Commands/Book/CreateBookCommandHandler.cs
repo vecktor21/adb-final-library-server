@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Library.Common.Exceptions;
 using Library.Dal.Models;
-using Library.Dal.Options;
+using Library.Common.Options;
 using Library.Domain.Commands.Book;
 using Library.Domain.Dtos.Book;
 using Library.Domain.Models.Implementataions;

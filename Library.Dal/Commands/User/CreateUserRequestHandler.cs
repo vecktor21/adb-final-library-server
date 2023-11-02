@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Library.Common.Exceptions;
 using Library.Dal.Models;
-using Library.Dal.Options;
+using Library.Common.Options;
 using Library.Domain.Commands.User;
 using Library.Domain.Dtos.User;
 using Library.Domain.Interfaces.Repositories;
@@ -26,7 +26,7 @@ namespace Library.Dal.Commands.User
         private readonly IMapper mapper;
         private readonly ConnectionOptions options;
 
-        public CreateUserRequestHandler(Database db, IUnitOfWork unitOfWork, IOptions<ConnectionOptions> options, ILogger logger, IMapper mapper)
+        public CreateUserRequestHandler(Database db, IOptions<ConnectionOptions> options, ILogger logger, IMapper mapper)
         {
             this.db = db;
             this.logger = logger;

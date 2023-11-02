@@ -1,5 +1,5 @@
 ﻿using Library.Dal.Models;
-using Library.Dal.Options;
+using Library.Common.Options;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Serilog;
