@@ -37,8 +37,6 @@ namespace Library.Dal.Queries.Book
         {
             logger.Debug("Get book by id");
             var book = mapper.Map<BookViewModel>( await db.GetCollection<BookEntity>(options.BookCollectionName).Find(x => x.Id == request.Id).FirstOrDefaultAsync());
-            book.Author = await mediator.Send(new GetAuthorQuery { Id = book.AuthorId});
-
             return book;
         }
     }
@@ -64,11 +62,6 @@ namespace Library.Dal.Queries.Book
             IEnumerable<IBook> bookEntities = await db.GetCollection<BookEntity>(options.BookCollectionName).Find("{}").ToListAsync();
 
             var books = mapper.Map<IEnumerable<BookViewModel>>(bookEntities);
-
-            foreach (var book in books)
-            {
-                book.Author = await mediator.Send(new GetAuthorQuery { Id = book.AuthorId });
-            }
             return books.ToList();
         }
     }

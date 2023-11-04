@@ -1,4 +1,5 @@
 ﻿using Library.Domain.Commands.Book;
+using Library.Domain.Commands.Book;
 using Library.Domain.Dtos.Book;
 using Library.Domain.Models.Interfaces;
 using Library.Domain.Queries.Book;
@@ -40,5 +41,31 @@ namespace Library.Api.Controllers
         {
             return await mediator.Send(new CreateBookCommand { Book = book});
         }
+
+        [HttpDelete("{bookId}")]
+        public async Task<bool> DeleteBook([FromForm] Guid bookId)
+        {
+            return await mediator.Send(new DeleteBookCommand()
+            {
+                Id = bookId
+            });
+        }
+
+        [HttpDelete]
+        public async Task<bool> DeleteAllBooks([FromForm] bool flag)
+        {
+            if (flag) return await mediator.Send(new ClearBooks());
+            return false;
+
+        }
+        [HttpPatch]
+        public async Task<bool> UpdateBook([FromForm] BookUpdateDto updatedBook)
+        {
+            return await mediator.Send(new UpdateBookCommand
+            {
+                UpdatedBook = updatedBook
+            });
+        }
+
     }
 }

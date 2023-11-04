@@ -47,7 +47,7 @@ namespace Library.Test.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<UserViewModel> Create([FromForm] CreateUserDto user)
+        public async Task<UserViewModel?> Create([FromForm] CreateUserDto user)
         {
             UserModel newUser = new UserModel()
             {
@@ -61,6 +61,24 @@ namespace Library.Test.Api.Controllers
             };
 
             return await mediator.Send(new CreateUserCommand { User = newUser});
+        }
+
+
+        [HttpDelete("{userId}")]
+        public async Task<bool> DeleteUser([FromForm] Guid userId) 
+        { 
+            return await mediator.Send(new DeleteUserCommand()
+            {
+                Id = userId
+            });
+        }
+
+        [HttpDelete]
+        public async Task<bool> DeleteAllUsers([FromForm] bool flag)
+        {
+            if(flag) return await mediator.Send(new ClearUsers());
+            return false;
+
         }
     }
 }

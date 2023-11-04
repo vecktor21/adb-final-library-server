@@ -9,7 +9,9 @@ namespace Library.Common.Options
     public class RedisOptions
     {
         public int CacheLifeTimeMinutes { get; set; }
+        public int CartCacheLifeTime { get; set; }
         public int ConnectionTimeout { get; set; }
         public int SlidingExpiration { get; set; }
+        public bool IsUseRedis { get; set; }
     }
 }

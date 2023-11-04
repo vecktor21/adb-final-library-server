@@ -12,8 +12,4 @@ namespace Library.Domain.Queries.User
     {
 
     }
-    public class GetAuthorQuery : IRequest<AuthorViewModel>
-    {
-        public Guid Id { get; set; }
-    }
 }

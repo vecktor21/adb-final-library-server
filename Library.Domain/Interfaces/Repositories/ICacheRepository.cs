@@ -15,6 +15,7 @@ namespace Library.Domain.Interfaces.Repositories
         Task<TResult?> GetValue<TResult>(string key);
         Task<bool> SetValue(string key, string value, DistributedCacheEntryOptions options);
         Task<bool> SetValue(string key, string value);
+        Task<bool> RemoveKey(string key);
     }
 }
 

@@ -18,6 +18,6 @@ namespace Library.Domain.Dtos.Book
         public double Price { get; set; }
         public int Year { get; set; }
         public string Genre { get; set; }
-        public Guid AuthorId { get; set; }
+        public string Author { get; set; }
     }
 }

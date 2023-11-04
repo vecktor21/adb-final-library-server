@@ -68,27 +68,6 @@ namespace Library.Dal.Queries.User
         }
     }
 
-    public class GetAuthorQueryHandler : IRequestHandler<GetAuthorQuery, AuthorViewModel?>
-    {
-        private readonly Database db;
-        private readonly ILogger logger;
-        private readonly IMapper mapper;
-        private readonly ConnectionOptions options;
-        public GetAuthorQueryHandler(Database db, IOptions<ConnectionOptions> options, ILogger logger, IMapper mapper)
-        {
-            this.db = db;
-            this.logger = logger;
-            this.mapper = mapper;
-            this.options = options.Value;
-        }
-
-        public async Task<AuthorViewModel?> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
-        {
-            logger.Debug("Get user by id");
-            return mapper.Map<AuthorViewModel>(await db.GetCollection<UserEntity>(options.UserCollectionName).Find(x => x.Id == request.Id).FirstOrDefaultAsync());
-        }
-    }
-
     public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UserViewModel>>
     {
         private readonly Database db;
