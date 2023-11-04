@@ -42,7 +42,7 @@ namespace Library.Dal.Commands.Book
             {
                 BookModel book = new BookModel
                 {
-                    AuthorId = request.Book.AuthorId,
+                    Author = request.Book.Author,
                     Title = request.Book.Title,
                     Price = request.Book.Price,
                     Year = request.Book.Year,
@@ -64,7 +64,7 @@ namespace Library.Dal.Commands.Book
 
                 return mapper.Map< BookViewModel>( await (await collection.FindAsync<BookEntity>(x =>
                     x.Title == bookEntiy.Title
-                    && x.AuthorId == bookEntiy.AuthorId
+                    && x.Author == bookEntiy.Author
                     && x.CreateDate == bookEntiy.CreateDate
                 )).FirstOrDefaultAsync());
 

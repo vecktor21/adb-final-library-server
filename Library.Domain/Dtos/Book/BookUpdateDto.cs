@@ -1,6 +1,4 @@
-﻿using Library.Domain.Dtos.User;
-using Library.Domain.Models.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Domain.Dtos.Book
 {
-    public class BookViewModel
+    public class BookUpdateDto
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -22,8 +20,5 @@ namespace Library.Domain.Dtos.Book
         public string Genre { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
-        public List<Guid> Likes { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
     }
 }

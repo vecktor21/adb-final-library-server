@@ -20,8 +20,7 @@ namespace Library.Dal.Models
         public double Discount { get; set; }
         public string Genre { get; set; }
         public string Description { get; set; }
-        public Guid AuthorId { get; set; }
-        public IUser Author { get; set; }
+        public string Author { get; set; }
         public List<Guid> Likes { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }

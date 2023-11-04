@@ -19,8 +19,7 @@ namespace Library.Domain.Models.Interfaces
         double Discount { get; set; }
         string Genre { get; set; }
         string Description { get; set; }
-        Guid AuthorId { get; set; }
-        IUser Author { get; set; }
+        string Author { get; set; }
         List<Guid> Likes { get; set; }
         DateTime CreateDate { get; set; }
         DateTime UpdateDate { get; set; }

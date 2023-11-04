@@ -21,7 +21,6 @@ namespace Library.Domain.Models.Implementataions
         private int _year = 0;
         private double _discount = 0;
         private string _genre = "";
-        private Guid _authorId;
         private string _description = "";
         private DateTime _createDate = DateTime.MinValue;
         private DateTime _updateDate = DateTime.MinValue;
@@ -50,8 +49,7 @@ namespace Library.Domain.Models.Implementataions
         public double Discount { get { return _discount; } set { _discount = value; } }
         public string Genre { get { return _genre; } set { _genre = value; } }
         public string Description { get { return _description; } set { _description = value; } }
-        public Guid AuthorId { get { return _authorId; } set { _authorId = value; } }
-        public IUser Author { get; set; }
+        public string Author { get; set; }
         public List<Guid> Likes { get; set; }
         public DateTime CreateDate 
         {

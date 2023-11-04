@@ -18,9 +18,6 @@ namespace Library.Dal.Mapping
 
             CreateMap<UserEntity, UserViewModel>().ReverseMap();
             CreateMap<UserModel, UserViewModel>().ReverseMap();
-
-            CreateMap<UserEntity, AuthorViewModel>().ReverseMap();
-            CreateMap<UserModel, AuthorViewModel>().ReverseMap();
         }
     }
 }

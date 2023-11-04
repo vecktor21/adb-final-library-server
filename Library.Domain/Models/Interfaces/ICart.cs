@@ -10,11 +10,18 @@ namespace Library.Domain.Models.Interfaces
     {
         Guid Id { get; set; }
         Guid UserId { get; set; }
-        IUser User { get; }
-        List<IBook> Books { get; set; }
-        double IntermediatePrice { get; }
-        double Discount { get; }
-        double Total { get;}
-        
+        List<ICartBook> Books { get; set; }
+        //промежуточная цена (без скидки)
+        double CountIntermediatePrice();
+        //скидка
+        double CountDiscount();
+        //Итог
+        double CountTotal();
+    }
+
+    public interface ICartBook
+    {
+        IBook Book { get; set; }
+        int Count { get; set; }
     }
 }

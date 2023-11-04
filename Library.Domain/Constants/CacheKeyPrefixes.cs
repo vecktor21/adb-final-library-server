@@ -18,11 +18,11 @@ namespace Library.Domain.Constants
         }
         public static string UserKey(string id)
         {
-            return String.Format(book, id);
+            return String.Format(bser, id);
         }
         public static string CartKey(string id)
         {
-            return String.Format(book, id);
+            return String.Format(cart, id);
         }
     }
 }
