@@ -20,6 +20,7 @@ namespace Library.Domain.Models.Interfaces
         string Genre { get; set; }
         string Description { get; set; }
         string Author { get; set; }
+        public List<IFileModel> Images { get; set; }
         List<Guid> Likes { get; set; }
         DateTime CreateDate { get; set; }
         DateTime UpdateDate { get; set; }

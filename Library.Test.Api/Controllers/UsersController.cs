@@ -56,9 +56,10 @@ namespace Library.Test.Api.Controllers
                 PhoneNumber = user.PhoneNumber,
                 Age = user.Age,
                 Description = user.Description,
-                Email = user.Email,
-                Password = user.Password
+                Role = user.Role,
+                Email = user.Email
             };
+            newUser.Password = newUser.HashedPassword(user.Password);
 
             return await mediator.Send(new CreateUserCommand { User = newUser});
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.Dal.Models
 {
-    internal class BookEntity : IBook
+    internal class BookEntity //: IBook
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -21,6 +21,7 @@ namespace Library.Dal.Models
         public string Genre { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
+        public List<FileModelEntity> Images { get; set; }
         public List<Guid> Likes { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }

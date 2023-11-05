@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Domain.Interfaces.Services;
 
 namespace Library.Dal.Commands.Book
 {
@@ -25,14 +26,17 @@ namespace Library.Dal.Commands.Book
         private readonly ILogger logger;
         private readonly IOptions<ConnectionOptions> options;
         private readonly IMapper mapper;
+        private readonly IFileService fileService;
 
-        public CreateBookCommandHandler(Database db, IMediator mediator, ILogger logger, IOptions<ConnectionOptions> options, IMapper mapper)
+        public CreateBookCommandHandler(Database db, IMediator mediator, ILogger logger, IOptions<ConnectionOptions> options, 
+            IMapper mapper, IFileService fileService)
         {
             this.db = db;
             this.mediator = mediator;
             this.logger = logger;
             this.options = options;
             this.mapper = mapper;
+            this.fileService = fileService;
         }
         public async Task<BookViewModel> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
@@ -52,7 +56,7 @@ namespace Library.Dal.Commands.Book
                     Genre = request.Book.Genre,
                     Pages = request.Book.Pages,
                     Description = request.Book.Description,
-                    Likes = new()
+                    Images = request.Book.Images
                 };
 
                 var bookEntiy = mapper.Map<BookEntity>(book);
@@ -60,6 +64,11 @@ namespace Library.Dal.Commands.Book
                 var collection = db.GetCollection<BookEntity>(options.Value.BookCollectionName);
 
                 await collection.InsertOneAsync(bookEntiy);
+
+                foreach (var file in book.Images)
+                {
+                    await fileService.SafeFile(file);
+                }
 
 
                 return mapper.Map< BookViewModel>( await (await collection.FindAsync<BookEntity>(x =>
