@@ -21,9 +21,19 @@ namespace Library.Test.Implenetations
             return true;
         }
 
+        public Task<bool> DeleteUser(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IUser FindUser(int id)
         {
             return users[id];
+        }
+
+        public Task<IUser?> FindUser(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public List<IUser> GetUsers()
@@ -32,6 +42,16 @@ namespace Library.Test.Implenetations
         }
 
         public bool UpdateUser(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<IUser>> IUserRepository.GetUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IUserRepository.UpdateUser(IUser user)
         {
             throw new NotImplementedException();
         }

@@ -7,6 +7,7 @@ using Library.Domain.Constants;
 using Library.Domain.Dtos.Book;
 using Library.Domain.Dtos.User;
 using Library.Domain.Interfaces.Repositories;
+using Library.Domain.Interfaces.Services;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
@@ -28,14 +29,17 @@ namespace Library.Dal.Commands.Book
         private readonly ILogger logger;
         private readonly IMapper mapper;
         private readonly ICacheRepository cache;
+        private readonly IFileService fileService;
         private readonly ConnectionOptions options;
 
-        public DeleteBookRequestHandler(Database db, IOptions<ConnectionOptions> options, ILogger logger, IMapper mapper, ICacheRepository cache)
+        public DeleteBookRequestHandler(Database db, IOptions<ConnectionOptions> options, ILogger logger, 
+            IMapper mapper, ICacheRepository cache, IFileService fileService)
         {
             this.db = db;
             this.logger = logger;
             this.mapper = mapper;
             this.cache = cache;
+            this.fileService = fileService;
             this.options = options.Value;
         }
         public async Task<bool> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
@@ -58,6 +62,11 @@ namespace Library.Dal.Commands.Book
             {
                 await collection.DeleteOneAsync(filter);
                 await cache.RemoveKey(CacheKeyPrefixes.BookKey(request.Id.ToString()));
+
+                foreach (var image in book.Images)
+                {
+                    fileService.DeleteFile(Path.Combine(image.StaticFolder, image.FileName));
+                }
 
                 return true;
             }

@@ -22,6 +22,7 @@ namespace Library.Domain.Dtos.Book
         public string Genre { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
+        public List<FileDto> Images { get; set; } = new List<FileDto>();
         public List<Guid> Likes { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }

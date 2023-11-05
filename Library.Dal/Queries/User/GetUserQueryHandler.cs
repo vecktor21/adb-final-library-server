@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library.Domain.Constants;
+using Library.Domain.Models.Implementataions;
 
 namespace Library.Dal.Queries.User
 {
@@ -53,13 +54,16 @@ namespace Library.Dal.Queries.User
             else
             {
                 user = mapper.Map<UserViewModel>(await db.GetCollection<UserEntity>(options.UserCollectionName).Find(x => x.Id == request.Id).FirstOrDefaultAsync());
-
                 logger.Debug($"User {key} extracted from MongoDb");
-                var userStr = JsonConvert.SerializeObject(user);
-                
-                if(await cache.SetValue( key, userStr))
+
+                if (user!= null)
                 {
-                    logger.Debug($"User {key} written to Cache");
+                    var userStr = JsonConvert.SerializeObject(user);
+
+                    if (await cache.SetValue(key, userStr))
+                    {
+                        logger.Debug($"User {key} written to Cache");
+                    }
                 }
 
             }
@@ -87,6 +91,46 @@ namespace Library.Dal.Queries.User
             logger.Debug("Get all users");
             IEnumerable<UserEntity> users = db.GetCollection<UserEntity>(options.UserCollectionName).Find("{}").ToList();
             return mapper.Map<List<UserViewModel>>(users);
+        }
+    }
+
+
+    public class GetUserEntityQueryHandler : IRequestHandler<GetUserByFilterQuery, UserModel?>
+    {
+        private readonly Database db;
+        private readonly ILogger logger;
+        private readonly IMapper mapper;
+        private readonly ICacheRepository cache;
+        private readonly ConnectionOptions options;
+        public GetUserEntityQueryHandler(Database db, IOptions<ConnectionOptions> options, ILogger logger, IMapper mapper, ICacheRepository cache)
+        {
+            this.db = db;
+            this.logger = logger;
+            this.mapper = mapper;
+            this.cache = cache;
+            this.options = options.Value;
+        }
+
+        public async Task<UserModel?> Handle(GetUserByFilterQuery request, CancellationToken cancellationToken)
+        {
+            logger.Debug("Get user by id");
+
+            UserModel user;
+
+            user = mapper.Map<UserModel>(await db.GetCollection<UserEntity>(options.UserCollectionName).Find(request.Filter).FirstOrDefaultAsync());
+
+            if (user != null)
+            {
+                var userStr = JsonConvert.SerializeObject(user);
+                var key = user.Id.ToString();
+
+                if (await cache.SetValue(CacheKeyPrefixes.UserKey(key), userStr))
+                {
+                    logger.Debug($"User {key} written to Cache");
+                }
+            }
+
+            return user;
         }
     }
 }

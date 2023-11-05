@@ -11,6 +11,6 @@ namespace Library.Test.Implenetations
     {
         public IUserRepository UserRepository { get; set; }
         public IBookRepository BookRepository { get; set ; }
-        
+        public ICartRepository CartRepository { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace Library.Domain.Models.Interfaces
         string Name { get; set; }
         string Surname { get; set; }
         string Email { get; set; }
+        string Role { get; set; }
         int Age { get; set; }
         string PhoneNumber { get; set; }
         string Password { get; set; }

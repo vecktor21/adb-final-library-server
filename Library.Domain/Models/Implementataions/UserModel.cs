@@ -35,6 +35,7 @@ namespace Library.Domain.Models.Implementataions
         }
         public string Name { get { return _name; } set { _name = value; } }
         public string Surname { get { return _surname; } set { _surname = value; } }
+        public string Role { get; set; } = "USER";
         public string Email
         {
             get { return _email; }
@@ -67,14 +68,7 @@ namespace Library.Domain.Models.Implementataions
             get { return _password; } 
             set
             {
-                byte[] salt;
-                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-                var pbkdf2 = new Rfc2898DeriveBytes(value, salt, 10000);
-                byte[] hash = pbkdf2.GetBytes(20);
-                byte[] hashBytes = new byte[36];
-                Array.Copy(salt, 0, hashBytes, 0, 16);
-                Array.Copy(hash, 0, hashBytes, 16, 20);
-                _password = Convert.ToBase64String(hashBytes);
+                _password = value;
             }
         }
         public string Description { get; set; }
@@ -112,6 +106,17 @@ namespace Library.Domain.Models.Implementataions
                 if (hashBytes[i + 16] != hash[i])
                     return false;
             return true;
+        }
+        public string HashedPassword(string normalPassword)
+        {
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            var pbkdf2 = new Rfc2898DeriveBytes(normalPassword, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            return Convert.ToBase64String(hashBytes);
         }
     }
 }

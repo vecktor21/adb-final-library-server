@@ -50,7 +50,7 @@ namespace Library.Domain.Models.Implementataions
         public string Genre { get { return _genre; } set { _genre = value; } }
         public string Description { get { return _description; } set { _description = value; } }
         public string Author { get; set; }
-        public List<Guid> Likes { get; set; }
+        public List<Guid> Likes { get; set; } = new();
         public DateTime CreateDate 
         {
             get
@@ -81,5 +81,7 @@ namespace Library.Domain.Models.Implementataions
                 _updateDate = value;
             }
         }
+
+        public List<IFileModel> Images { get; set; }
     }
 }

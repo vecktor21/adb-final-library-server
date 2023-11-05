@@ -1,10 +1,14 @@
+using Amazon.Auth.AccessControlPolicy;
 using Library.Common.Exceptions;
 using Library.Common.Options;
 using Library.Di;
 using Library.Domain.Interfaces.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +19,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(pol =>
+    {
+        pol.AllowAnyHeader();
+        pol.AllowAnyMethod();
+        pol.AllowAnyOrigin();
+        pol.SetIsOriginAllowed(origin => true);
+        pol.AllowCredentials();
+    });
+});
+
+
 builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection("Connection"));
 builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+
 
 builder.Services.AddStackExchangeRedisCache(conf =>
 {
@@ -26,6 +45,36 @@ builder.Services.AddStackExchangeRedisCache(conf =>
     conf.Configuration = conString;
 });
 
+bool isUseAuth = (bool)builder.Configuration.GetSection("Connection").GetValue<bool>("UseAuth");
+
+if (isUseAuth)
+{
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("Default", policy =>
+        {
+            policy.RequireAuthenticatedUser();
+        });
+        options.AddPolicy("ADMIN", policy =>
+        {
+            policy.RequireAuthenticatedUser();
+            policy.RequireRole("ADMIN");
+        });
+    });
+
+}
 
 
 var serilogConfig = builder.Configuration.GetSection("Serilog");
@@ -36,12 +85,11 @@ builder.Host.UseSerilog((context, config) =>
     .WriteTo.Console());
 
 
-
-
-
 Di.AddServices(builder.Services);
 
 var app = builder.Build();
+
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -50,7 +98,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
+if (isUseAuth)
+{
+    app.UseAuthorization();
+}
 
 app.MapControllers();
 

@@ -24,7 +24,7 @@ namespace Library.Test
 
             var user = new UserModel(/*db*/);
 
-            user.Password = password;
+            user.Password = user.HashedPassword(password);
 
             Console.WriteLine(user.Password);
 

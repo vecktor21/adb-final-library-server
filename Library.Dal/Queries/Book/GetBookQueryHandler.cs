@@ -59,9 +59,7 @@ namespace Library.Dal.Queries.Book
         public async Task<List<BookViewModel>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
         {
             logger.Debug("Get all books");
-            IEnumerable<IBook> bookEntities = await db.GetCollection<BookEntity>(options.BookCollectionName).Find("{}").ToListAsync();
-
-            var books = mapper.Map<IEnumerable<BookViewModel>>(bookEntities);
+            var books = mapper.Map<IEnumerable<BookViewModel>>(await db.GetCollection<BookEntity>(options.BookCollectionName).Find("{}").ToListAsync());
             return books.ToList();
         }
     }
