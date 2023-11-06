@@ -36,7 +36,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<BookViewModel> CreateBook([FromForm]BookCreateDto book, [FromForm]IFormFileCollection images)
+        public async Task<BookViewModel> CreateBook([FromForm] BookCreateDto book, [FromForm] IFormFileCollection images)
         {
             List<IFileModel> files = new List<IFileModel>();
             foreach (var file in HttpContext.Request.Form.Files)
@@ -62,7 +62,7 @@ namespace Library.Api.Controllers
             }
             book.Images = files;
 
-            return await mediator.Send(new CreateBookCommand { Book = book});
+            return await mediator.Send(new CreateBookCommand { Book = book });
         }
 
         [HttpDelete("{bookId}")]
@@ -97,6 +97,5 @@ namespace Library.Api.Controllers
         {
             return await mediator.Send(new LikeBookCommand { BookId = bookId, UserId = userId });
         }
-
     }
 }
