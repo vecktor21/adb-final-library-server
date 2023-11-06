@@ -81,5 +81,17 @@ namespace Library.Test.Api.Controllers
             return false;
 
         }
+
+        [HttpPost("{userId:Guid}/history/{bookId:Guid}")]
+        public async Task<bool> AddBookToHistory(Guid userId, Guid bookId)
+        {
+            return await mediator.Send(new AddBookViewHistoryCommand { UserId = userId, BookId = bookId});
+        }
+
+        [HttpGet("{userId:Guid}/history")]
+        public async Task<UserHistoryViewModel> GetUserViewHistory(Guid userId)
+        {
+            return await mediator.Send(new GetUserHistoryQuery { UserId = userId });
+        }
     }
 }

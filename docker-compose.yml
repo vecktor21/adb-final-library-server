@@ -21,6 +21,8 @@ services:
       - default
     environment:
       - REDIS_PORT=6379
+    volumes:
+      - redis_data:/data
 
 
 

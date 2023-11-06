@@ -92,5 +92,11 @@ namespace Library.Api.Controllers
             });
         }
 
+        [HttpPost("{bookId:guid}/like/{userId:guid}")]
+        public async Task<bool> LikeBook(Guid bookId, Guid userId)
+        {
+            return await mediator.Send(new LikeBookCommand { BookId = bookId, UserId = userId });
+        }
+
     }
 }
