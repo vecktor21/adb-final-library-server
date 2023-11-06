@@ -1,9 +1,11 @@
 using Library.Domain.Commands.User;
+using Library.Domain.Dtos.Book;
 using Library.Domain.Dtos.User;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Models.Implementataions;
 using Library.Domain.Models.Interfaces;
 using Library.Domain.Queries;
+using Library.Domain.Queries.Book;
 using Library.Domain.Queries.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +82,24 @@ namespace Library.Test.Api.Controllers
             if(flag) return await mediator.Send(new ClearUsers());
             return false;
 
+        }
+
+        [HttpPost("{userId:Guid}/history/{bookId:Guid}")]
+        public async Task<bool> AddBookToHistory(Guid userId, Guid bookId)
+        {
+            return await mediator.Send(new AddBookViewHistoryCommand { UserId = userId, BookId = bookId});
+        }
+
+        [HttpGet("{userId:Guid}/history")]
+        public async Task<UserHistoryViewModel> GetUserViewHistory(Guid userId)
+        {
+            return await mediator.Send(new GetUserHistoryQuery { UserId = userId });
+        }
+
+        [HttpGet("{userId:Guid}/recomendations")]
+        public async Task<List<BookViewModel>> GetUserRecomendations(Guid userId)
+        {
+            return await mediator.Send(new GetRecommendationsQuery { UserId = userId });
         }
     }
 }

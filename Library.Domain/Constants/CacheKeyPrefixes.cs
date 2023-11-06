@@ -11,6 +11,7 @@ namespace Library.Domain.Constants
         private static string bser = "user_{0}";
         private static string book = "book_{0}";
         private static string cart = "cart_{0}";
+        private static string history = "history_{0}";
 
         public static string BookKey(string id)
         {
@@ -23,6 +24,10 @@ namespace Library.Domain.Constants
         public static string CartKey(string id)
         {
             return String.Format(cart, id);
+        }
+        public static string HistoryKey(string id)
+        {
+            return String.Format(history, id);
         }
     }
 }
