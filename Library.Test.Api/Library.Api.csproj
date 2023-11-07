@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>C:\Users\User\Desktop\mongo ADB\final\Library\Library.Test.Api\bin\Debug\net7.0\MyApi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

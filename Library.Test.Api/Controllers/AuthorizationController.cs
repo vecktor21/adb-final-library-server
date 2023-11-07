@@ -19,6 +19,16 @@ namespace Library.Api.Controllers
             this.logger = logger;
         }
 
+
+        /// <summary>
+        /// Авторизоваться (получить AccessToken)
+        /// </summary>
+        /// <param name="authorizeUserDto">данные для авторизации: логин и пароль</param>
+        /// <response code="200">Запрос обработан</response>
+        /// <response code="500">Внутренняя ошибка</response>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<string> Authorize([FromForm]AuthorizeUserDto authorizeUserDto)
         {

@@ -30,7 +30,16 @@ namespace Library.Dal.Commands.User
         }
         public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            logger.Information("Updateing user");
+            logger.Information("Updating user");
+            var user = await db.GetCollection<UserEntity>(options.UserCollectionName).Find(x => x.Id == request.User.Id).FirstOrDefaultAsync();
+
+            if(user == null)
+            {
+                string msg = $"User {request.User.Id} not found";
+                logger.Error(msg);
+                throw new ResponseResultException(System.Net.HttpStatusCode.NotFound, msg);
+            }
+
             try
             {
                 var updateDefinition = Builders<UserEntity>.Update
