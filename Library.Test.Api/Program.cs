@@ -3,6 +3,7 @@ using Library.Common.Exceptions;
 using Library.Common.Options;
 using Library.Di;
 using Library.Domain.Interfaces.Repositories;
+using Library.Domain.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
@@ -136,11 +137,11 @@ app.UseExceptionHandler(applicationBuilder =>
 
             context.Response.StatusCode = (int)status;
 
-            await context.Response.WriteAsJsonAsync(new
+            await context.Response.WriteAsJsonAsync(new ExceptionResultDto
             {
-                Code = exception.Code,
+                Field = exception.Field,
                 Message = exception.Message,
-                Field = exception.Field
+                Code = (int)exception.Code
             });
         }
         else

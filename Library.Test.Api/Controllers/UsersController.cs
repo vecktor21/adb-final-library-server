@@ -30,11 +30,11 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Получить пользователя по его Id
+        /// РџРѕР»СѓС‡РёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїРѕ РµРіРѕ Id
         /// </summary>
-        /// <param name="userId">Id пользователя</param>
-        /// <response code="200">Запрос обработан, пользователь получен</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="userId">Id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїРѕР»СѓС‡РµРЅ</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,10 +44,10 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Получить всех пользователей
+        /// РџРѕР»СѓС‡РёС‚СЊ РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
         /// </summary>
-        /// <response code="200">Запрос обработан, пользователи получены</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РїРѕР»СѓС‡РµРЅС‹</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -57,13 +57,13 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Обновление пользователя
+        /// РћР±РЅРѕРІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
-        /// <param name="user">новая информация о пользователе</param>
-        /// <param name="Age">Возраст пользователя</param>
-        /// <response code="200">Запрос обработан, пользователь изменен</response>
-        /// <response code="404">Пользователь не найден</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="user">РЅРѕРІР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ</param>
+        /// <param name="Age">Р’РѕР·СЂР°СЃС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РёР·РјРµРЅРµРЅ</response>
+        /// <response code="404">РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -78,12 +78,12 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Создание пользователя
+        /// РЎРѕР·РґР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
-        /// <param name="user">новая информация о пользователе</param>
-        /// <response code="200">Запрос обработан, пользователь создан</response>
-        /// <response code="400">Ошибка запроса. подробнее в ответе</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="user">РЅРѕРІР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃРѕР·РґР°РЅ</response>
+        /// <response code="400">РћС€РёР±РєР° Р·Р°РїСЂРѕСЃР°. РїРѕРґСЂРѕР±РЅРµРµ РІ РѕС‚РІРµС‚Рµ</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -108,12 +108,12 @@ namespace Library.Test.Api.Controllers
 
 
         /// <summary>
-        /// Удаление пользователя
+        /// РЈРґР°Р»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
-        /// <param name="userId">новая информация о пользователе</param>
-        /// <response code="200">Запрос обработан, пользователь удален</response>
-        /// <response code="400">Ошибка запроса. подробнее в ответе</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="userId">РЅРѕРІР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓРґР°Р»РµРЅ</response>
+        /// <response code="400">РћС€РёР±РєР° Р·Р°РїСЂРѕСЃР°. РїРѕРґСЂРѕР±РЅРµРµ РІ РѕС‚РІРµС‚Рµ</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -128,12 +128,12 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Удаление Всех пользователей, доступно только пользователю с ролью ADMIN
+        /// РЈРґР°Р»РµРЅРёРµ Р’СЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РґРѕСЃС‚СѓРїРЅРѕ С‚РѕР»СЊРєРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ СЃ СЂРѕР»СЊСЋ ADMIN
         /// </summary>
-        /// <param name="flag">дополнительный флаг для удаления. удалит только если будет true</param>
-        /// <response code="200">Запрос обработан, пользователь удален</response>
-        /// <response code="400">Ошибка запроса. подробнее в ответе</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="flag">РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ С„Р»Р°Рі РґР»СЏ СѓРґР°Р»РµРЅРёСЏ. СѓРґР°Р»РёС‚ С‚РѕР»СЊРєРѕ РµСЃР»Рё Р±СѓРґРµС‚ true</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓРґР°Р»РµРЅ</response>
+        /// <response code="400">РћС€РёР±РєР° Р·Р°РїСЂРѕСЃР°. РїРѕРґСЂРѕР±РЅРµРµ РІ РѕС‚РІРµС‚Рµ</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -149,12 +149,12 @@ namespace Library.Test.Api.Controllers
 
 
         /// <summary>
-        /// Добавить книгу в историю просмотра
+        /// Р”РѕР±Р°РІРёС‚СЊ РєРЅРёРіСѓ РІ РёСЃС‚РѕСЂРёСЋ РїСЂРѕСЃРјРѕС‚СЂР°
         /// </summary>
-        /// <param name="userId">Id пользователя</param>
-        /// <param name="bookId">Id книги</param>
-        /// <response code="200">Запрос обработан, книга добавлена в историю</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="userId">Id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</param>
+        /// <param name="bookId">Id РєРЅРёРіРё</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РєРЅРёРіР° РґРѕР±Р°РІР»РµРЅР° РІ РёСЃС‚РѕСЂРёСЋ</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -165,11 +165,11 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Получить историю просмотра пользователя
+        /// РџРѕР»СѓС‡РёС‚СЊ РёСЃС‚РѕСЂРёСЋ РїСЂРѕСЃРјРѕС‚СЂР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
-        /// <param name="userId">Id пользователя</param>
-        /// <response code="200">Запрос обработан, история просмотра получена</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="userId">Id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, РёСЃС‚РѕСЂРёСЏ РїСЂРѕСЃРјРѕС‚СЂР° РїРѕР»СѓС‡РµРЅР°</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -180,11 +180,11 @@ namespace Library.Test.Api.Controllers
         }
 
         /// <summary>
-        /// Получить рекомендации пользователя
+        /// РџРѕР»СѓС‡РёС‚СЊ СЂРµРєРѕРјРµРЅРґР°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
-        /// <param name="userId">Id пользователя</param>
-        /// <response code="200">Запрос обработан, рекомендации получены</response>
-        /// <response code="500">Внутренняя ошибка</response>
+        /// <param name="userId">Id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</param>
+        /// <response code="200">Р—Р°РїСЂРѕСЃ РѕР±СЂР°Р±РѕС‚Р°РЅ, СЂРµРєРѕРјРµРЅРґР°С†РёРё РїРѕР»СѓС‡РµРЅС‹</response>
+        /// <response code="500">Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°</response>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
