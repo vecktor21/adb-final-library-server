@@ -1,0 +1,35 @@
+﻿
+
+<div class="@modalStyle" @onclick="CloseModal" @onclick:stopPropagation=true @onclick:preventDefault=true>
+    <div class="modal-content" @onclick:stopPropagation=true @onclick:preventDefault=true>
+        <div class="modal-header">
+            <h3>@Title</h3>
+            <button class="close-button" @onclick="CloseModal">X</button>
+        </div>
+        <div class="modal-body">
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+
+<link type="text/css" rel="stylesheet" href="/css//modal.css" />
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    private string modalStyle = "modal";
+
+    public void CloseModal()
+    {
+        modalStyle = "modal";
+    }
+
+    public void ShowModal()
+    {
+        modalStyle = "modal visible";
+    }
+}

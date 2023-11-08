@@ -1,4 +1,8 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@using Library.Client.Services;
+@inject AuthService authService;
+
+<CascadingValue Value="@context">
+    <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -10,3 +14,31 @@
         </LayoutView>
     </NotFound>
 </Router>
+</CascadingValue>
+
+@code{
+    private ContextData context { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!String.IsNullOrEmpty(context.JwtToken))
+        {
+            var res = await authService.CheckAuthorization(context.JwtToken);
+
+            if(res.Data != null)
+            {
+                context.JwtToken = res.Data.AccessToken;
+                context.CurrentUser = res.Data.User;
+                context.IsAuthorized = true;
+            }
+            else
+            {
+                context.IsAuthorized = false;
+                context.JwtToken = null;
+                context.CurrentUser = null;
+            }
+        }
+        base.OnInitialized();
+    }
+}

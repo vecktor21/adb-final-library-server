@@ -1,0 +1,81 @@
+﻿@using Library.Client.Services;
+@using Library.Domain.Dtos.User;
+@inject AuthService authService;
+<div>
+    @if (context.IsAuthorized)
+    {
+        <div>
+            @context.CurrentUser.Email
+        </div>
+        <div>
+            <button onclick="@OnLoginClicked">
+                Выйти
+            </button>
+        </div>
+    }
+    else
+    {
+        <div>
+            <button onclick="@OnLoginClicked">
+                Войти
+            </button>
+        </div>
+    }
+
+    <div>@errorText</div>
+</div>
+
+
+<ModalComponent @ref=@login Title="Авторизация">
+    <input @bind=@email placeholder="Почта" />
+    <input @bind=@password placeholder="Пароль"/>
+    <button onclick="@Authorize">Войти</button>
+</ModalComponent>
+
+
+@code {
+
+    [CascadingParameter]
+    private ContextData context { get; set; }
+
+    private bool isAuthModalVisible{ get; set; }
+
+    private ModalComponent login;
+    private string email;
+    private string password;
+    private string errorText = "";
+
+    private void OnLoginClicked(MouseEventArgs e)
+    {
+        if (context.IsAuthorized)
+        {
+            context = new ContextData();
+        }
+        else
+        {
+            login.ShowModal();
+        }
+    }
+
+
+    private async Task Authorize()
+    {
+        var res = await authService.Authorize(new AuthorizeUserDto { Email=email, Password = password});
+
+        if (res.Data != null)
+        {
+            context.JwtToken = res.Data.AccessToken;
+            context.CurrentUser = res.Data.User;
+            context.IsAuthorized = true;
+            errorText = "";
+        }
+        else
+        {
+            context.IsAuthorized = false;
+            context.JwtToken = null;
+            context.CurrentUser = null;
+            errorText = $"Ошибка авторизации: {res.Excetption.Message}";
+        }
+        login.CloseModal();
+    }
+}
