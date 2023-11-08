@@ -1,3 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
+<div>
+    <div><SearchComponent /></div>
+    <div>
+        <ProfileComponent/>
+    </div>
+</div>
+
 <main> @Body </main>
+
+
+
+@code{
+    [CascadingParameter]
+    private ContextData context{ get; set; }
+}

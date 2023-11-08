@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Api", "Library.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Di", "Library.Di\Library.Di.csproj", "{263210F8-FC31-4076-8836-3C1BA65F2B40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Cache", "Library.Cache\Library.Cache.csproj", "{1EB73B5B-5968-4422-91EB-7A3D1B8FD9AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Cache", "Library.Cache\Library.Cache.csproj", "{1EB73B5B-5968-4422-91EB-7A3D1B8FD9AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

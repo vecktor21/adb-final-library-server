@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Library.Domain.Constants;
 using Library.Domain.Models.Implementataions;
+using Library.Common.Exceptions;
 
 namespace Library.Dal.Queries.User
 {
@@ -67,8 +68,14 @@ namespace Library.Dal.Queries.User
                 }
 
             }
-
-            return user;
+            if(user != null)
+            {
+                return user;
+            }
+            else
+            {
+                throw new ResponseResultException(System.Net.HttpStatusCode.NotFound, $"user {request.Id} not found");
+            }
         }
     }
 
