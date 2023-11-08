@@ -1,3 +1,4 @@
+using Library.Common.Exceptions;
 using Library.Domain.Commands.User;
 using Library.Domain.Dtos.Book;
 using Library.Domain.Dtos.User;
@@ -89,8 +90,13 @@ namespace Library.Test.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<UserViewModel?> Create([FromForm] CreateUserDto user)
+        public async Task<UserViewModel?> Create([FromBody] CreateUserDto user)
         {
+            if(user.Password != user.RepeatPassword)
+            {
+                throw new ResponseResultException(System.Net.HttpStatusCode.BadRequest, "Passwords doesnt match");
+            }
+
             UserModel newUser = new UserModel()
             {
                 Name = user.Name,

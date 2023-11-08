@@ -1,6 +1,7 @@
 ﻿@using Library.Client.Services;
 @using Library.Domain.Dtos.User;
 @inject AuthService authService;
+@inject UserService userService;
 <div>
     @if (context.IsAuthorized)
     {
@@ -27,9 +28,24 @@
 
 
 <ModalComponent @ref=@login Title="Авторизация">
-    <input @bind=@email placeholder="Почта" />
-    <input @bind=@password placeholder="Пароль"/>
-    <button onclick="@Authorize">Войти</button>
+    @if (isAuth)
+    {
+        <input @bind=@authData.Email type="email" placeholder="Почта" />
+        <input @bind=@authData.Password type="password" placeholder="Пароль" />
+        <button onclick="@Authorize">Войти</button>
+        <button @onclick=@(x=>{isAuth = false;})>Зарегистрироваться</button>
+    }
+    else
+    {
+        <input @bind=@createData.Name placeholder="Имя" />
+        <input @bind=@createData.Surname placeholder="Фамилия" />
+        <input @bind=@createData.Email type="email" placeholder="Почта" />
+        <input @bind=@createData.Password type="password" placeholder="Пароль" />
+        <input @bind=@createData.RepeatPassword type="password" placeholder="Повторите пароль" />
+        <input @bind=@createData.Age type="number" min="0" max="120" placeholder="Возраст" />
+        <button onclick="@Register">Зарегистрироваться</button>
+        <button @onclick=@(x=>{isAuth = true;})>Войти</button>
+    }
 </ModalComponent>
 
 
@@ -41,8 +57,15 @@
     private bool isAuthModalVisible{ get; set; }
 
     private ModalComponent login;
-    private string email;
-    private string password;
+
+
+    private AuthorizeUserDto authData = new();
+    private CreateUserDto createData = new CreateUserDto
+    {
+        Role = "USER"
+    };
+
+    private bool isAuth = true;
     private string errorText = "";
 
     private void OnLoginClicked(MouseEventArgs e)
@@ -60,7 +83,7 @@
 
     private async Task Authorize()
     {
-        var res = await authService.Authorize(new AuthorizeUserDto { Email=email, Password = password});
+        var res = await authService.Authorize(authData);
 
         if (res.Data != null)
         {
@@ -75,6 +98,28 @@
             context.JwtToken = null;
             context.CurrentUser = null;
             errorText = $"Ошибка авторизации: {res.Excetption.Message}";
+        }
+        login.CloseModal();
+    }
+
+    private async Task Register()
+    {
+        var res = await userService.Register(createData);
+
+        if (res.Data != null)
+        {
+            authData.Email = res.Data.Email;
+            authData.Password = createData.Password;
+            errorText = "";
+
+            await Authorize();
+        }
+        else
+        {
+            context.IsAuthorized = false;
+            context.JwtToken = null;
+            context.CurrentUser = null;
+            errorText = $"Ошибка Регистрации: {res.Excetption.Message}";
         }
         login.CloseModal();
     }
