@@ -49,9 +49,9 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("[action]")]
-        public async Task<AuthorizationResponseDto> CheckAuth(string accessToken)
+        public async Task<AuthorizationResponseDto> CheckAuth([FromBody] AccessTokenRequestData accessToken)
         {
-            return await auth.CheckAuth(accessToken);
+            return await auth.CheckAuth(accessToken.AccessToken);
         }
     }
 }

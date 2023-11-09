@@ -81,9 +81,11 @@ namespace Library.Dal.Commands.Book
             catch(Exception ex)
             {
                 logger.Error(ex.Message);
-                logger.Error(ex.InnerException.Message);
-                logger.Error(ex.StackTrace);
-                throw new ResponseResultException(System.Net.HttpStatusCode.BadRequest, ex.Message);
+                logger.Error(ex?.InnerException?.Message ?? "");
+                logger.Error(ex?.StackTrace ?? "");
+                //throw new ResponseResultException(System.Net.HttpStatusCode.BadRequest, ex.Message);
+                throw ex;
+
             }
         }
     }

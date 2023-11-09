@@ -2,17 +2,24 @@
 @using Library.Domain.Dtos.User;
 @inject AuthService authService;
 @inject UserService userService;
+@inject IJSRuntime js;
 <div>
     @if (context.IsAuthorized)
     {
         <div>
-            @context.CurrentUser.Email
+            <a href="/cart">Корзина</a>
         </div>
         <div>
-            <button onclick="@OnLoginClicked">
-                Выйти
-            </button>
+            <div>
+                @context.CurrentUser.Email
+            </div>
+            <div>
+                <button onclick="@OnLoginClicked">
+                    Выйти
+                </button>
+            </div>
         </div>
+        
     }
     else
     {
@@ -68,11 +75,12 @@
     private bool isAuth = true;
     private string errorText = "";
 
-    private void OnLoginClicked(MouseEventArgs e)
+    private async Task OnLoginClicked(MouseEventArgs e)
     {
         if (context.IsAuthorized)
         {
             context = new ContextData();
+            await js.InvokeAsync<string>("localStorage.setItem", "token", "");
         }
         else
         {
@@ -91,6 +99,7 @@
             context.CurrentUser = res.Data.User;
             context.IsAuthorized = true;
             errorText = "";
+            await js.InvokeAsync<string>("localStorage.setItem", "token", res.Data.AccessToken);
         }
         else
         {
@@ -98,6 +107,7 @@
             context.JwtToken = null;
             context.CurrentUser = null;
             errorText = $"Ошибка авторизации: {res.Excetption.Message}";
+            await js.InvokeAsync<string>("localStorage.setItem", "token", "");
         }
         login.CloseModal();
     }

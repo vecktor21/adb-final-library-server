@@ -1,5 +1,6 @@
 ﻿@using Library.Client.Services;
 @inject AuthService authService;
+@inject IJSRuntime js;
 
 <CascadingValue Value="@context">
     <Router AppAssembly="@typeof(App).Assembly">
@@ -22,23 +23,51 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (!String.IsNullOrEmpty(context.JwtToken))
-        {
-            var res = await authService.CheckAuthorization(context.JwtToken);
+        
+        base.OnInitialized();
+    }
 
-            if(res.Data != null)
+    private async Task Authorize(string token)
+    {
+        var res = await authService.CheckAuthorization(token);
+
+        if (res.Data != null)
+        {
+            context.JwtToken = res.Data.AccessToken;
+            context.CurrentUser = res.Data.User;
+            context.IsAuthorized = true;
+            await js.InvokeAsync<string>("localStorage.setItem", "token", res.Data.AccessToken);
+        }
+        else
+        {
+            context.IsAuthorized = false;
+            context.JwtToken = null;
+            context.CurrentUser = null;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (!String.IsNullOrEmpty(context.JwtToken))
             {
-                context.JwtToken = res.Data.AccessToken;
-                context.CurrentUser = res.Data.User;
-                context.IsAuthorized = true;
+                await Authorize(context.JwtToken);
             }
             else
             {
-                context.IsAuthorized = false;
-                context.JwtToken = null;
-                context.CurrentUser = null;
+                var token = await js.InvokeAsync<string>("localStorage.getItem", "token");
+                if (!String.IsNullOrEmpty(token))
+                {
+                    await Authorize(token);
+                }
+                else
+                {
+
+                }
             }
+
+            StateHasChanged();
         }
-        base.OnInitialized();
     }
 }

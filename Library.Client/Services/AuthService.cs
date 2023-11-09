@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime.Internal.Transform;
+﻿using Amazon.Runtime;
+using Amazon.Runtime.Internal.Transform;
 using Library.Client.Models;
 using Library.Domain.Dtos;
 using Library.Domain.Dtos.User;
@@ -45,7 +46,13 @@ namespace Library.Client.Services
             {
                 { "accessToken", accessToken}
             });
-            var res = await httpClient.PostAsync($"api/Authorization/CheckAuth", content);
+
+            return await httpClientService.SendPostRequest<AccessTokenRequestData, AuthorizationResponseDto>($"api/Authorization/CheckAuth", new AccessTokenRequestData
+            {
+                AccessToken = accessToken
+            });
+
+            /*var res = await httpClient.PostAsync($"api/Authorization/CheckAuth", content);
 
             if (res.IsSuccessStatusCode)
             {
@@ -54,8 +61,24 @@ namespace Library.Client.Services
             else
             {
                 var exception = await res.Content.ReadFromJsonAsync<ExceptionResultDto>();
-                return new ResponseData<AuthorizationResponseDto> { Data = null, Excetption = exception };
-            }
+
+                if (String.IsNullOrEmpty(exception.Message))
+                {
+                    return new ResponseData<AuthorizationResponseDto>
+                    {
+                        Data = null,
+                        Excetption = new ExceptionResultDto
+                        {
+                            Code = (int)res.StatusCode,
+                            Message = await res.Content.ReadAsStringAsync()
+                        }
+                    };
+                }
+
+                return new ResponseData<AuthorizationResponseDto> { Data =null, Excetption = exception };
+            }*/
         }
+
+        
     }
 }

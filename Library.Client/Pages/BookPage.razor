@@ -1,0 +1,74 @@
+﻿@page "/book/{BookId:guid}"
+
+@inject IOptions<ConnectionOptions> options;
+@inject BookService bookService;
+@inject CartService cartService;
+
+<div>
+    <img src=@($"{options.Value.ApiAddress}images/{Book.Images.FirstOrDefault()?.FileName ?? options.Value.DefaultImage }")/>
+    <div>
+        <div>@Book.Title</div>
+        <div>@Book.Price</div>
+        <div>@Book.Author</div>
+        <div>@Book.Genre</div>
+        <div>@Book.Description</div>
+        @if (context.IsAuthorized)
+        {
+            <label for="count">Количество</label>
+            <input id="count" type="number" min="0" max="10" @bind=@bookCount />
+            <button @onclick=AddToCart>В корзину</button>
+        }
+    </div>
+</div>
+
+@exceptionMessage
+
+@code {
+
+    [CascadingParameter]
+    public ContextData context { get; set; }
+    private BookViewModel Book { get; set; } = new();
+    [Parameter]
+    public Guid BookId { get; set; }
+    private string exceptionMessage = "";
+    private int bookCount = 1;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (context.IsAuthorized)
+        {
+            await bookService.AddBookToHistory(context.CurrentUser.Id, BookId);
+        }
+
+        var res = await bookService.GetBook(BookId);
+
+        if (res.Data != null)
+        {
+            Book = res.Data;
+            exceptionMessage = "";
+        }
+        else
+        {
+            Book = new();
+            exceptionMessage = $"Ошибка получения информации о книге: {res?.Excetption.Message}";
+        }
+        await base.OnParametersSetAsync();
+    }
+
+
+    private async Task AddToCart()
+    {
+        var res = await cartService.AddToCart(context.CurrentUser.Id, BookId);
+
+        if (res.Data != null)
+        {
+            exceptionMessage = "";
+        }
+        else
+        {
+            Book = new();
+            exceptionMessage = $"Ошибка получения информации о книге: {res?.Excetption.Message}";
+        }
+    }
+}

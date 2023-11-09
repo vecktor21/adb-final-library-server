@@ -1,0 +1,32 @@
+﻿@inject NavigationManager naigation;
+@inject IOptions<ConnectionOptions> options;
+
+
+
+<Card Class="mb-4" Style="width:13rem; margin:0 10px">
+    <img 
+        class="rounded-top"
+        src=@($"{options.Value.ApiAddress}images/{Book.Images.FirstOrDefault()?.FileName ?? options.Value.DefaultImage }")
+        alt="placeholder"
+        @onclick=Navigate />
+    <CardBody>
+        <CardTitle>@Book.Title</CardTitle>
+        <CardSubTitle Class="mb-2 text-muted">@Book.Price</CardSubTitle>
+        <CardText>@Book.Description</CardText>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Book.Genre</li>
+        </ul>
+        <Button Color="ButtonColor.Primary" To="#" Type="ButtonType.Link" @onclick=Navigate>Подробнее</Button>
+    </CardBody>
+</Card>
+
+
+@code {
+    [Parameter]
+    public BookViewModel Book { get; set; } = new();
+
+    private void Navigate()
+    {
+        naigation.NavigateTo($"/book/{Book.Id}");
+    }
+}

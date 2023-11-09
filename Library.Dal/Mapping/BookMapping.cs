@@ -14,7 +14,18 @@ namespace Library.Dal.Mapping
     {
         public BookMapping()
         {
-            CreateMap<BookEntity, BookModel>().ReverseMap();
+            CreateMap<BookModel, BookEntity>();
+            CreateMap<BookEntity, BookModel>().ForMember(x=>x.Images, opt =>
+            {
+                opt.MapFrom(x=>x.Images.Select(img=> new FileModel
+                {
+                    Content = null,
+                    ContentType = img.ContentType,
+                    StaticFolder = img.StaticFolder,
+                    FileName = img.FileName,
+                    FileType = img.FileType,
+                }));
+            });
 
             CreateMap<BookEntity, BookViewModel>().ReverseMap();
             CreateMap<BookModel, BookViewModel>().ReverseMap();

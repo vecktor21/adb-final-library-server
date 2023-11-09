@@ -16,4 +16,9 @@ namespace Library.Domain.Queries.Book
     public class GetAllBooksQuery : IRequest<List<BookViewModel>>
     {
     }
+
+    public class GetBooksByFilterQuery : IRequest<List<BookViewModel>>
+    {
+        public string Filter { get; set; }
+    }
 }
