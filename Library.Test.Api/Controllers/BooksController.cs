@@ -34,9 +34,14 @@ namespace Library.Api.Controllers
         {
             return await mediator.Send(new GetAllBooksQuery());
         }
+        [HttpGet("filter")]
+        public async Task<List<BookViewModel>> GetBooksByFilter(string filter)
+        {
+            return await mediator.Send(new GetBooksByFilterQuery { Filter = filter});
+        }
 
         [HttpPost]
-        public async Task<BookViewModel> CreateBook([FromForm] BookCreateDto book, [FromForm] IFormFileCollection images)
+        public async Task<BookViewModel> CreateBook([FromForm] BookCreateControllerDto book, [FromForm] IFormFileCollection images)
         {
             List<IFileModel> files = new List<IFileModel>();
             foreach (var file in HttpContext.Request.Form.Files)
@@ -60,9 +65,23 @@ namespace Library.Api.Controllers
                 files.Add(fileModel);
 
             }
-            book.Images = files;
 
-            return await mediator.Send(new CreateBookCommand { Book = book });
+            BookCreateDto newBook = new BookCreateDto
+            {
+                Author = book.Author,
+                CoverType = book.CoverType,
+                Description = book.Description,
+                Genre = book.Genre,
+                Images = files,
+                Pages = book.Pages,
+                PiblishCity = book.PiblishCity,
+                Price = book.Price,
+                Publisher = book.Publisher,
+                Title = book.Title,
+                Year = book.Year
+            };
+
+            return await mediator.Send(new CreateBookCommand { Book = newBook });
         }
 
         [HttpDelete("{bookId}")]

@@ -12,4 +12,8 @@ namespace Library.Domain.Dtos
         public UserViewModel User { get; set; }
         public string AccessToken { get; set; }
     }
+    public class AccessTokenRequestData
+    {
+        public string AccessToken { get; set; }
+    }
 }

@@ -12,6 +12,8 @@ services:
       - Connection__MongoConnection=mongodb://root:root@mongo/
       - Connection__RedisConnection=redis:6379
       - Redis__IsUseRedis=true
+    volumes:
+      - ./Library.Test.Api/wwwroot:/app/wwwroot
   
   mongo:
     container_name: mongo
@@ -46,3 +48,4 @@ networks:
 volumes:
   mongo_data:
   redis_data:
+  static_data:

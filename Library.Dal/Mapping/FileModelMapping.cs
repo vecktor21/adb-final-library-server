@@ -2,6 +2,7 @@
 using Library.Dal.Models;
 using Library.Domain.Dtos;
 using Library.Domain.Models.Implementataions;
+using Library.Domain.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,9 @@ namespace Library.Dal.Mapping
     {
         public FileModelMapping()
         {
-            CreateMap<FileModel, FileModelEntity>().ReverseMap();
+            CreateMap<FileModel, FileModelEntity>();
             CreateMap<FileModelEntity, FileDto>().ReverseMap();
+            CreateMap<FileModelEntity, FileModel>().ForMember(x=>x.Content, opt=>opt.Ignore());
             CreateMap<FileModel, FileDto>().ReverseMap();
         }
     }

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Library.Common\Library.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\RequestParams\" />
+  </ItemGroup>
+
 </Project>

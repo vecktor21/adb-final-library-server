@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Library.Dal.Models;
+using Library.Domain.Dtos;
 using Library.Domain.Dtos.Book;
 using Library.Domain.Dtos.Cart;
 using Library.Domain.Models.Implementataions;
@@ -42,7 +43,14 @@ namespace Library.Dal.Mapping
                         Publisher = s.Book.Publisher,
                         Title = s.Book.Title,
                         UpdateDate = s.Book.UpdateDate,
-                        Year = s.Book.Year
+                        Year = s.Book.Year,
+                        Images = s.Book.Images.Select(im=> new FileDto
+                        {
+                            ContentType = im.ContentType,
+                            FileName = im.FileName,
+                            StaticFolder = im.StaticFolder,
+                            FileType = im.FileType,
+                        }).ToList()
                     },
                     Count = s.Count
                 }))))

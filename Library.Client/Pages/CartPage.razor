@@ -1,0 +1,103 @@
+﻿@inject IOptions<ConnectionOptions> options;
+@inject CartService cartService;
+
+@page "/cart";
+
+<h3>Корзина</h3>
+
+@foreach(var cartItem in cart.Books)
+{
+    <div>
+        <div>
+            <img src=@($"{options.Value.ApiAddress}images/{cartItem.Book.Images.FirstOrDefault()?.FileName ?? options.Value.DefaultImage }")/>
+        </div>
+        <div>
+            <div>@cartItem.Book.Title</div>
+            <div>@cartItem.Book.Price</div>
+        </div>
+        <div>
+            <button @onclick=@(x=>IncrementItem(cartItem.Book.Id))>+</button>
+            <button @onclick=@(x=>DecrementItem(cartItem.Book.Id))>-</button>
+            <div>@cartItem.Count</div>
+        </div>
+    </div>
+}
+
+<div>
+    <div>Цена без скидки:</div>
+    <div>@cart.IntermediatePrice</div>
+</div>
+
+
+<div>
+    <div>Скидка:</div>
+    <div>@cart.Discount</div>
+</div>
+
+
+<div>
+    <div>Итог:</div>
+    <div>@cart.Total</div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public ContextData context {get;set;}
+
+    private CartViewModel cart = new();
+    private string errorText = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (context.IsAuthorized)
+        {
+            await FetchCart();
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task IncrementItem(Guid bookId)
+    {
+        var res = await cartService.AddToCart(context.CurrentUser.Id, bookId);
+
+        if (res.Data != null)
+        {
+            await FetchCart();
+            errorText = "";
+        }
+        else
+        {
+            errorText = $"Ошибка получения информации о книге: {res?.Excetption.Message}";
+        }
+    }
+    private async Task DecrementItem(Guid bookId)
+    {
+        var res = await cartService.RemoveOneFromCart(context.CurrentUser.Id, bookId);
+
+        if (res.Data != null)
+        {
+            await FetchCart();
+            errorText = "";
+        }
+        else
+        {
+            errorText = $"Ошибка получения информации о книге: {res?.Excetption.Message}";
+        }
+    }
+
+    private async Task FetchCart()
+    {
+        var res = await cartService.GetUserCart(context.CurrentUser.Id);
+
+        if (res.Data != null)
+        {
+            cart = res.Data;
+            errorText = "";
+        }
+        else
+        {
+            errorText = $"Ошибка получения данных: {res.Excetption.Message}";
+        }
+    }
+}
