@@ -1,0 +1,36 @@
+﻿@inject BookService bookService;
+
+<div>
+    @foreach (var book in HistoryBooks)
+    {
+        <BookComponent Book="@book" />
+    }
+</div>
+
+@code {
+    [CascadingParameter]
+    public ContextData Context { get; set; }
+    private List<BookViewModel> HistoryBooks = new List<BookViewModel>();
+    private string exceptionMessage = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Context.IsAuthorized)
+        {
+            var res = await bookService.GetUserHistory(Context.CurrentUser.Id);
+
+            if (res.Data != null)
+            {
+                HistoryBooks = res.Data.Books;
+                exceptionMessage = "";
+            }
+            else
+            {
+                HistoryBooks = new();
+                exceptionMessage = $"Ошибка получения информации о книгах: {res.Excetption.Message}";
+            }
+        }
+
+        await base.OnParametersSetAsync();
+    }
+}

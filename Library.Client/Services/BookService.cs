@@ -48,5 +48,10 @@ namespace Library.Client.Services
         {
             return await httpClientService.SendGetRequest<UserHistoryViewModel>($"api/users/{userId}/history", new Dictionary<string, object>());
         }
+
+        public async Task<ResponseData<List<BookViewModel>>> GetUserRecomendations(Guid userId)
+        {
+            return await httpClientService.SendGetRequest<List<BookViewModel>>($"api/users/{userId}/recomendations", new Dictionary<string, object>());
+        }
     }
 }

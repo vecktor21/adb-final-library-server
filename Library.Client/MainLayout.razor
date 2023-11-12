@@ -7,7 +7,25 @@
     </div>
 </div>
 
-<main> @Body </main>
+<div class="bb-top-row px-4 d-flex justify-content-center">
+    <h3>Книги</h3>
+    <div>
+        фильтры
+    </div>
+</div>
+
+<div class="container" style="margin:10px 5px;">
+    <div class="row d-flex justify-content-center flex-wrap">
+        <div class="col-lg-6 d-flex justify-content-center flex-wrap" style="margin:10px;">
+            <RecommendationsComponent />
+        </div>
+        <main> @Body </main>
+        <div class="col-sm-1">
+            <HistoryComponent />
+        </div>
+    </div>
+</div>
+
 
 
 

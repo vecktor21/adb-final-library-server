@@ -15,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
+builder.Services.AddCors();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -36,18 +39,6 @@ builder.Services.AddSwaggerGen(c =>
     }
 
     c.IncludeXmlComments(filePath);
-});
-
-builder.Services.AddCors(opt =>
-{
-    opt.AddDefaultPolicy(pol =>
-    {
-        pol.AllowAnyHeader();
-        pol.AllowAnyMethod();
-        pol.AllowAnyOrigin();
-        pol.SetIsOriginAllowed(origin => true);
-        pol.AllowCredentials();
-    });
 });
 
 
@@ -107,6 +98,15 @@ builder.Host.UseSerilog((context, config) =>
 Di.AddServices(builder.Services);
 
 var app = builder.Build();
+
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader();
+    opt.AllowAnyMethod();
+    opt.AllowAnyOrigin();
+    opt.SetIsOriginAllowed(origin => true);
+    opt.AllowCredentials();
+});
 
 app.UseStaticFiles();
 

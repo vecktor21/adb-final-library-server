@@ -1,0 +1,36 @@
+﻿@inject BookService bookService;
+
+<div>
+    @foreach(var book in RecomendedBooks)
+    {
+        <BookComponent Book="@book"/>
+    }
+</div>
+
+@code {
+    [CascadingParameter]
+    public ContextData Context{ get; set; }
+    private List<BookViewModel> RecomendedBooks = new List<BookViewModel>();
+    private string exceptionMessage = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Context.IsAuthorized)
+        {
+            var res = await bookService.GetUserRecomendations(Context.CurrentUser.Id);
+
+            if (res.Data != null)
+            {
+                RecomendedBooks = res.Data;
+                exceptionMessage = "";
+            }
+            else
+            {
+                RecomendedBooks = new();
+                exceptionMessage = $"Ошибка получения информации о книгах: {res.Excetption.Message}";
+            }
+        }
+
+        await base.OnParametersSetAsync();
+    }
+}
