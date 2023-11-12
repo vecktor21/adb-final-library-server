@@ -26,6 +26,14 @@ builder.Services.AddCors(opt =>
         pol.SetIsOriginAllowed(p => true);
         pol.AllowCredentials();
     });
+
+    opt.AddPolicy("concrete", pol =>
+    {
+        pol.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://127.0.0.1:3000", "https://127.0.0.1:3000");
+        pol.AllowAnyHeader();
+        pol.AllowAnyMethod();
+        pol.AllowCredentials();
+    });
 });
 
 builder.Services.AddControllers();
@@ -109,7 +117,7 @@ Di.AddServices(builder.Services);
 
 var app = builder.Build();
 
-app.UseCors("default");
+app.UseCors("concrete");
 
 app.UseStaticFiles();
 
