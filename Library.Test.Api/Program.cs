@@ -18,14 +18,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("default", pol =>
+    /*opt.AddPolicy("default", pol =>
     {
         pol.AllowAnyHeader();
         pol.AllowAnyMethod();
         pol.AllowAnyOrigin();
         pol.SetIsOriginAllowed(p => true);
         pol.AllowCredentials();
-    });
+    });*/
 
     opt.AddPolicy("concrete", pol =>
     {
