@@ -59,7 +59,7 @@ namespace Library.Dal.Commands.User
             var newUser = new UserEntity
             {
                 Id = request.User.Id,
-                Surname = request.User.Name,
+                Surname = request.User.Surname,
                 Name = request.User.Name,
                 Description = request.User.Description,
                 Email = request.User.Email,
