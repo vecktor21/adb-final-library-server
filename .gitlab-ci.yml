@@ -10,6 +10,8 @@ test-job:
     script:
         - echo "git-lab ci TEST JOB running"
         - echo "$TEST_GLOBAL_VARIABLE World!"
+        - echo "public variable $SOME_PUBLIC_VARIABLE"
+        - echo "masked variable $SOME_MASKED_VARIABLE"
 
 build-job:
     stage: build
