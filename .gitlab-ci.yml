@@ -1,3 +1,6 @@
+variables:
+    TEST_GLOBAL_VARIABLE: "Hello"
+
 stages:
     - build
     - test
@@ -6,6 +9,7 @@ test-job:
     stage: test
     script:
         - echo "git-lab ci TEST JOB running"
+        - echo "$TEST_GLOBAL_VARIABLE World!"
 
 build-job:
     stage: build
