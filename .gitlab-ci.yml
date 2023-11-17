@@ -1,20 +1,7 @@
-variables:
-    TEST_GLOBAL_VARIABLE: "Hello"
-    SOME_PUBLIC_VARIABLE: $SOME_PUBLIC_VARIABLE
-
 stages:
     - build
-    - test
 
-test-job:
-    stage: test
-    script:
-        - echo "git-lab ci TEST JOB running"
-        - echo "${TEST_GLOBAL_VARIABLE} World!"
-        - echo "public variable ${SOME_PUBLIC_VARIABLE}"
-        - echo "masked variable ${SOME_MASKED_VARIABLE}"
-
-build-job:
+build=job:
     stage: build
     script:
-        - echo "git-lab ci TEST JOB running"
+        - docker compose up
