@@ -6,11 +6,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Library.Client/Library.Client.csproj", "Library.Client/"]
-RUN dotnet restore "Library.Client/Library.Client.csproj"
+COPY ["./Library.Client.csproj", "Library.Client/"]
+COPY ["Library.Common/Library.Common.csproj","Library.Common/"]
+COPY ["Library.Dal/Library.Dal.csproj","Library.Dal/"]
+COPY ["Library.Domain/Library.Domain.csproj","Library.Domain/"]
+RUN dotnet restore "./Library.Client/Library.Client.csproj"
 COPY . .
 WORKDIR "/src/Library.Client"
-RUN dotnet build "Library.Client.csproj" -c Release -o /app/build
+RUN dotnet build "/Library.Client/Library.Client.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Library.Client.csproj" -c Release -o /app/publish /p:UseAppHost=false

@@ -15,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+string[] urls = builder.Configuration.GetSection("CORS:AllowedHosts").Get<string[]>();
+
+Console.WriteLine(String.Join(", ", urls));
 
 builder.Services.AddCors(opt =>
 {
@@ -29,7 +32,7 @@ builder.Services.AddCors(opt =>
 
     opt.AddPolicy("concrete", pol =>
     {
-        pol.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://127.0.0.1:3000", "https://127.0.0.1:3000");
+        pol.WithOrigins(urls);
         pol.AllowAnyHeader();
         pol.AllowAnyMethod();
         pol.AllowCredentials();

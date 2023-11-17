@@ -11,8 +11,23 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - Connection__MongoConnection=mongodb+srv://root:root@library.ndny8eh.mongodb.net/
       - Connection__RedisConnection=redis:6379
+      - CORS__AllowedHosts__0=client:3000
     volumes:
       - static_data:/app/wwwroot
+
+  client:
+    container_name: library_client
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    ports:
+      - 127.0.0.1:3000:80
+    networks:
+      - default
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__ApiAddress=http://server:80
+
 
   redis:
     container_name: redis
