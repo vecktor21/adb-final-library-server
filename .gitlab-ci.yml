@@ -5,13 +5,15 @@ stages:
     - build
     - test
 
-test-job:
+test-job1:
     stage: test
     script:
-        - echo "git-lab ci TEST JOB running"
-        - echo "$TEST_GLOBAL_VARIABLE World!"
-        - echo "public variable $SOME_PUBLIC_VARIABLE"
-        - echo "masked variable $SOME_MASKED_VARIABLE"
+        - echo $TEST_GLOBAL_VARIABLE
+
+test-job2:
+    stage: build
+    script:
+        - echo "test 2"
 
 build-job:
     stage: build
